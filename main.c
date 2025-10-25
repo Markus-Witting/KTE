@@ -3,9 +3,9 @@
 #include "display.h"
 
 int main(){
-    struct DISPLAY* display = Display(4, 10); 
+    struct DISPLAY* display = Display(50, 140); 
 
-    //display->Blitz(display);
+    display->Blitz(display);
 
     return 0;
 }

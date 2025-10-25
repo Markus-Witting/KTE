@@ -1,8 +1,12 @@
 #include "display.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 // thought it was Blitz not Blit, sounds cool so im keeping it
 static void Blitz_IMPL(struct DISPLAY *display){
-    fputs(display->buffer, stdout);
+    printf("\n");
+    write(1, display->buffer, display->byte_size);
 }
 
 static void Update_IMPL(struct DISPLAY *display, const char *input_buf, size_t t_row, size_t b_row){
@@ -16,11 +20,20 @@ struct DISPLAY *Display(size_t rows, size_t width){
 
     display->rows = rows;
     display->width = width;
+
+    display->byte_size = rows * (width + 1);
     
-    display->buffer = calloc(rows * (width + 1), sizeof(char));
+    display->buffer = malloc(display->byte_size);
     if (!display->buffer){
         free(display);
         return NULL;
+    }
+
+    for(int i = 0; i < rows; i++){
+        for(int j = 0; j < width; j++){
+            display->buffer[i * (width + 1) + j] = '-';
+        }
+        display->buffer[i * (width + 1) + width] = '\n';
     }
 
     display->Blitz = Blitz_IMPL;

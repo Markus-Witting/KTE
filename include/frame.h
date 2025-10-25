@@ -10,12 +10,12 @@ enum FLEX{
 };
 
 struct FRAME{
-    size_t top;
-    size_t bottom;
-    size_t left;
-    size_t right;
+    u_int top;
+    u_int bottom;
+    u_int left;
+    u_int right;
 
     enum FLEX flex;
 };
 
-void Frame(size_t t, size_t b, size_t l, size_t r);
+void Frame(u_int t, u_int b, u_int l, u_int r);
