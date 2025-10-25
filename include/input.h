@@ -1,11 +1,13 @@
 #pragma once
 
-struct termios orig;
+enum CONTROLCHARS{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+};
 
-void SetRawMode(int state);
+struct INPUTBUFFER{
+    char buf[4];
+};  
 
-void HandleKey(char c);
-
-
-
-void

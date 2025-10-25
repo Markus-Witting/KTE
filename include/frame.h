@@ -1,21 +1,33 @@
 #pragma once
 
-#include <stdlib.h>
+// FLEX is rellevant only for user.
+// FRAME position data can always be overidden in code
+typedef enum {
+    FIXED,      // Static for user
+    STABLE,     // Still at initialisation -- moveable at runtime
+    EXPAND,     // Expands at initialisation & runtime
+    OVERLAY,    // Static -- controlled through code -- Composited over all other frames
+} FLEX;
 
-// FLEX is irrelevant in code as FRAME position data can always be overidden
-enum FLEX{
-    fixed,      // Static for user
-    stable,     // Still at initialisation -- moveable at runtime
-    expand      // Expands at initialisation & runtime
-};
+typedef enum {
+    NONE,
+    NORMAL,
+    BOLD,
+    DOTTED,
+    DUAL,
+} BORDER;
 
 struct FRAME{
-    u_int top;
-    u_int bottom;
-    u_int left;
-    u_int right;
+    int top;
+    int bottom;
+    int left;
+    int right;
 
-    enum FLEX flex;
+    FLEX flex;
+
+    BORDER border;
+
+    void (*Free)(struct FRAME* frame);
 };
 
-void Frame(u_int t, u_int b, u_int l, u_int r);
+struct FRAME* Frame(int top, int bottom, int left, int right, FLEX flex, BORDER border);

@@ -13,7 +13,6 @@ static void Update_IMPL(struct DISPLAY *display, const char *input_buf, size_t t
     printf("UPDATING\n");
 }
 
-
 struct DISPLAY *Display(size_t rows, size_t width){
     struct DISPLAY *display = malloc(sizeof(struct DISPLAY));
     if (!display) return NULL;
