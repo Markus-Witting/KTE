@@ -18,6 +18,10 @@ int main(){
         state = INACTIVE;
     }
 
+    for (int i = 0; i <= 80; i+= 80){
+        printf("%d\n", i);
+    }
+
     //display->Blitz(display);
 
     return 0;

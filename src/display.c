@@ -20,7 +20,7 @@ struct DISPLAY *Display(size_t rows, size_t width){
     display->rows = rows;
     display->width = width;
 
-    display->byte_size = rows * (width + 1);
+    display->byte_size = rows * width;
     
     display->buffer = malloc(display->byte_size);
     if (!display->buffer){
@@ -28,12 +28,6 @@ struct DISPLAY *Display(size_t rows, size_t width){
         return NULL;
     }
 
-    for(int i = 0; i < rows; i++){
-        for(int j = 0; j < width; j++){
-            display->buffer[i * (width + 1) + j] = '-';
-        }
-        display->buffer[i * (width + 1) + width] = '\n';
-    }
 
     display->Blitz = Blitz_IMPL;
     display->Update = Update_IMPL;

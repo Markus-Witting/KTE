@@ -17,16 +17,26 @@ typedef enum {
     DUAL,
 } BORDER;
 
+struct BORDERSET {
+    
+};
+
 struct FRAME{
     int top;
     int bottom;
     int left;
     int right;
 
+    int rows;
+    int width;
+
     FLEX flex;
 
     BORDER border;
 
+    char *buffer; // FRAME buffer -- parsed to compositor
+
+    void (*UpdateBuffer)(struct FRAME* frame);
     void (*Free)(struct FRAME* frame);
 };
 
