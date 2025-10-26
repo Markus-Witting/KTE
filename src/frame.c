@@ -3,8 +3,7 @@
 #include "frame.h"
 
 static void Free_IMPL(struct FRAME *frame){
-    free(frame->buffer); // Free output buffer 
-
+    if (frame->buffer) free(frame->buffer); // Free output buffer 
     free(frame);
 }
 
@@ -22,8 +21,28 @@ static void UpdateOBuffer_IMPL(struct FRAME *frame){
     }
 }
 
+static BORDERCHARSET GetBorderCharSet(enum BORDER border){
 
-struct FRAME *Frame(int top, int bottom, int left, int right, FLEX flex, BORDER border){
+    switch (border){
+        case NORMAL:
+            BORDERCHARSET chs = {
+                "\xE2\x94\x82\x00",
+                "\xE2\x94\x80\x00",
+
+                "\xE2\x94\x8C\x00",
+                "\xE2\x94\x90\x00",
+                
+                "\xE2\x94\x94\x00",
+                "\xE2\x94\x98\x00"
+            };
+            
+            return chs;
+            break;
+    }
+
+}
+
+struct FRAME *Frame(int top, int bottom, int left, int right, enum FLEX flex, enum BORDER border){
     struct FRAME *frame = malloc(sizeof(struct FRAME));
     if (!frame) return NULL;
 
@@ -31,18 +50,28 @@ struct FRAME *Frame(int top, int bottom, int left, int right, FLEX flex, BORDER 
     frame->bottom = bottom;
     frame->left = left;
     frame->right = right;
+
     frame->flex = flex;
+
+
     frame->border = border;
+    
+
+    frame->border_charset = GetBorderCharSet(border); 
+
 
     int rows = bottom-top;
     int width = right - left;
 
-    frame->buffer = malloc(sizeof(rows * width));
-
-    ApplyBorder(frame->buffer, rows, width);
+    frame->buffer = malloc(rows * width);
+    if (!frame->buffer) return NULL;
 
     frame->UpdateBuffer = UpdateOBuffer_IMPL;
     frame->Free = Free_IMPL;
 
     return frame;
 }
+/*
+chs->l_v = "\xE2\x94\x82\x00";
+
+*/
